@@ -7,6 +7,6 @@ public class LoginProvider implements LoginContract.Provider {
 
     @Override
     public void login(String name, String pwd, OnRequestCallbackListener onRequestCallback) {
-        onRequestCallback.onSuccess();
+        onRequestCallback.onSuccess(null);
     }
 }

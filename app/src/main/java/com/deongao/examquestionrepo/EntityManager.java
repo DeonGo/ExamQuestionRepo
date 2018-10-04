@@ -31,22 +31,25 @@ public class EntityManager {
         return entityManager;
     }
 
+    public List<ExamQuestion> getFullList(){
+        ExamQuestionDao examQuestionDao = getExamQuestionDao();
+        return examQuestionDao.queryBuilder().list();
+    }
+
     public List<ExamQuestion> getSingleChoice(int count){
         ExamQuestionDao examQuestionDao = getExamQuestionDao();
-        List<ExamQuestion> list= examQuestionDao.queryBuilder()
+        return examQuestionDao.queryBuilder()
                 .limit(count)
                 .where(ExamQuestionDao.Properties.Type.eq(1))
                 .orderRaw("RANDOM()").list();
-        return list;
     }
 
     public List<ExamQuestion> getSMultiChoices(int count){
         ExamQuestionDao examQuestionDao = getExamQuestionDao();
-        List<ExamQuestion> list= examQuestionDao.queryBuilder()
+        return examQuestionDao.queryBuilder()
                 .limit(count)
                 .where(ExamQuestionDao.Properties.Type.eq(2))
                 .orderRaw("RANDOM()").list();
-        return list;
     }
 
     public void addQuestion(ExamQuestion examQuestion){

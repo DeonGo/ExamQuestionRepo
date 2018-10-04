@@ -1,6 +1,6 @@
 package com.deongao.examquestionrepo;
 
-public interface OnRequestCallbackListener {
-    void onSuccess();
-    void onFailure();
+public interface OnRequestCallbackListener<T> {
+    void onSuccess(T t);
+    void onFailure(String s);
 }

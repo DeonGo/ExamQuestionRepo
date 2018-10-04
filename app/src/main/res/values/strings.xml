@@ -8,4 +8,9 @@
 _
     <string name="username_empty_alert">用户名不能为空！！！</string>
     <string name="pwd_empty_alert">密码不能为空！！！</string>
+
+    <string name="answer_a">答案A</string>
+    <string name="answer_b">答案B</string>
+    <string name="answer_c">答案C</string>
+    <string name="answer_d">答案D</string>
 </resources>

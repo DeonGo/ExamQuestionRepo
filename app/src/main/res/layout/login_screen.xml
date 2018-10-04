@@ -48,7 +48,7 @@
         android:id="@+id/rgroup"
         >
         <RadioButton
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
@@ -57,7 +57,7 @@
             />
 
         <RadioButton
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/rbtn_user"

@@ -22,9 +22,9 @@ public class LoginPresenter implements LoginContract.Presenter {
         }else if(TextUtils.isEmpty(pwd)){
             view.showPwdEmptyAlbert();
         }else {
-            provider.login(name, pwd, new OnRequestCallbackListener() {
+            provider.login(name, pwd, new OnRequestCallbackListener<String>() {
                 @Override
-                public void onSuccess() {
+                public void onSuccess(String s) {
                     if(isAdmin){
                         view.navigateToAdminPage();
                     }else {
@@ -33,7 +33,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                 }
 
                 @Override
-                public void onFailure() {
+                public void onFailure(String s) {
 
                 }
             });
