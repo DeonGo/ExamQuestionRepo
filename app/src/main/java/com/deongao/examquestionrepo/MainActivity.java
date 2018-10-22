@@ -2,19 +2,19 @@
 package com.deongao.examquestionrepo;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.deongao.examquestionrepo.fragment.AdminFragment;
 import com.deongao.examquestionrepo.fragment.LoginFragment;
+import com.deongao.examquestionrepo.model.ExamQuestion;
+import com.deongao.examquestionrepo.navigator.MainActivityNavigator;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainActivityNavigator {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,4 +60,48 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    @Override
+    public void navigateToAdminPage() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.fl_container, new AdminFragment());
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    @Override
+    public void navigateToUserPage() {
+
+    }
+
+    @Override
+    public void navigateToQuestionCreationPage() {
+
+    }
+
+    @Override
+    public void navigateToQuestionInfoPage() {
+
+    }
+
+    @Override
+    public void back() {
+        getSupportFragmentManager().popBackStack();
+    }
+
+
+    private ExamQuestion mSelectedQuestion;
+    public ExamQuestion getSelectedQuestion() {
+        return mSelectedQuestion;
+    }
+
+    public void setSelectedQuestion(ExamQuestion mSelectedQuestion) {
+        this.mSelectedQuestion = mSelectedQuestion;
+    }
+
+
+
+
 }

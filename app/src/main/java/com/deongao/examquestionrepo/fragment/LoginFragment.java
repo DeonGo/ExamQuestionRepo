@@ -16,7 +16,7 @@ import com.deongao.examquestionrepo.contract.LoginContract;
 import com.deongao.examquestionrepo.presenter.LoginPresenter;
 import com.deongao.examquestionrepo.provider.LoginProvider;
 
-public class LoginFragment extends Fragment implements LoginContract.View {
+public class LoginFragment extends BaseFragment implements LoginContract.View {
 
     TextInputEditText mUsername, mPwd;
     RadioButton mRbtnAdmin, mRbtnUser;
