@@ -8,11 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.deongao.examquestionrepo.fragment.AdminFragment;
 import com.deongao.examquestionrepo.fragment.LoginFragment;
+import com.deongao.examquestionrepo.fragment.QuestionInfoFragment;
 import com.deongao.examquestionrepo.model.ExamQuestion;
 import com.deongao.examquestionrepo.navigator.MainActivityNavigator;
+import com.deongao.examquestionrepo.processor.QuestionInfoProcessor;
 
 public class MainActivity extends AppCompatActivity implements MainActivityNavigator {
 
@@ -20,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -54,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.create_exam) {
             return true;
         }
 
@@ -77,18 +80,40 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
     }
 
     @Override
-    public void navigateToQuestionCreationPage() {
+    public void navigateToSingleQuestionCreationPage() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+        fragmentTransaction.replace(R.id.fl_container, QuestionInfoFragment.getSingleChoiceFragment());
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
     @Override
-    public void navigateToQuestionInfoPage() {
+    public void navigateToMultiQuestionsCreationPage() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+        fragmentTransaction.replace(R.id.fl_container, QuestionInfoFragment.getMultiChoicesFragment());
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+
+    @Override
+    public void navigateToQuestionInfoPage(ExamQuestion examQuestion) {
+        setSelectedQuestion(examQuestion);
+        if(examQuestion.getType() == QuestionInfoProcessor.SINGLE){
+            navigateToSingleQuestionCreationPage();
+        }else {
+            navigateToMultiQuestionsCreationPage();
+        }
     }
 
     @Override
     public void back() {
-        getSupportFragmentManager().popBackStack();
+        getSupportFragmentManager().popBackStackImmediate();
+        getSupportFragmentManager().executePendingTransactions();
     }
 
 
@@ -100,6 +125,27 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
     public void setSelectedQuestion(ExamQuestion mSelectedQuestion) {
         this.mSelectedQuestion = mSelectedQuestion;
     }
+
+    private long mExitTime = 0;
+
+    @Override
+    public void onBackPressed() {
+        if(getSupportFragmentManager().getBackStackEntryCount() == 0){
+            if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                mExitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+        }else{
+            getSupportFragmentManager().popBackStack();
+        }
+
+    }
+
+
+
 
 
 

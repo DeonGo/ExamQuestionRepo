@@ -21,7 +21,7 @@ public class QuestionInfoPresenter implements QuestionInfoContract.Presenter {
     }
 
     @Override
-    public void submit(String title, String a, String b, String c, String d, String answer, int type,long id) {
+    public void submit(String title, String a, String b, String c, String d, String answer, int type,Long id) {
         if(TextUtils.isEmpty(title)){
             view.showError("题目不能为空！！！");
         }else if(TextUtils.isEmpty(a)||TextUtils.isEmpty(b)||TextUtils.isEmpty(c)||TextUtils.isEmpty(d)){
@@ -35,15 +35,17 @@ public class QuestionInfoPresenter implements QuestionInfoContract.Presenter {
             examQuestion.setAnswerC(c);
             examQuestion.setAnswerD(d);
             examQuestion.setTitle(title);
+            examQuestion.setType(type);
             examQuestion.setRealAnswer(answer);
 
             if(id == -1){
                 provider.addQuestion(examQuestion);
             }else {
                 examQuestion.setId(id);
-
                 provider.updateQuestion(examQuestion);
             }
+
+            view.back();
         }
 
     }

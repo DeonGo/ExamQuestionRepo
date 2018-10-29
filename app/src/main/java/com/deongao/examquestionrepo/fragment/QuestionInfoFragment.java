@@ -2,12 +2,14 @@ package com.deongao.examquestionrepo.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +30,7 @@ public class QuestionInfoFragment extends BaseFragment implements QuestionInfoPr
     QuestionInfoContract.Presenter mPresenter;
 
     EditText mEtTitle, mEtA, mEtB, mEtC, mEtD;
+    RadioButton mRbA,mRbB,mRbC,mRbD;
     Button mBtnSubmit;
 
 
@@ -49,6 +52,7 @@ public class QuestionInfoFragment extends BaseFragment implements QuestionInfoPr
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        System.out.println("onCreateView-----------------");
         if (getArguments().getBoolean(ARG_QUESTION_TYPE)) {
             mProcessor = new QuestionInfoProcessor.SingleChoiceProcessor(this);
         } else {
@@ -60,10 +64,13 @@ public class QuestionInfoFragment extends BaseFragment implements QuestionInfoPr
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        System.out.println("onViewCreated-----------------");
+
         super.onViewCreated(view, savedInstanceState);
 
         mRadioGroup = view.findViewById(R.id.rgroup_single);
         mRadioGroup.setVisibility(mProcessor.isRadioGroupVisible() ? View.VISIBLE : View.GONE);
+
         view.findViewById(R.id.ll_multi).setVisibility(mProcessor.isCheckboxGroupVisible() ? View.VISIBLE : View.GONE);
 
         Button button = view.findViewById(R.id.btn_submit);
@@ -113,7 +120,14 @@ public class QuestionInfoFragment extends BaseFragment implements QuestionInfoPr
         if (cbC.isChecked()) stringBuilder.append("C").append(",");
         if (cbD.isChecked()) stringBuilder.append("D").append(",");
 
-        return stringBuilder.toString().substring(0, stringBuilder.length() - 1);
+        String result=null;
+        try {
+            result = stringBuilder.toString().substring(0, stringBuilder.length() - 1);
+        }catch (Exception e){
+
+        }
+
+        return result;
     }
 
 
@@ -124,11 +138,70 @@ public class QuestionInfoFragment extends BaseFragment implements QuestionInfoPr
         mEtB.setText(examQuestion.getAnswerB());
         mEtC.setText(examQuestion.getAnswerC());
         mEtD.setText(examQuestion.getAnswerD());
+        if(examQuestion.getType() == QuestionInfoProcessor.SINGLE){
+            switch (examQuestion.getRealAnswer()){
+                case "A":
+                    ((RadioButton)getView().findViewById(R.id.rbtn_a)).setChecked(true);
+                    break;
+                case "B":
+                    ((RadioButton)getView().findViewById(R.id.rbtn_b)).setChecked(true);
+                    break;
+                case "C":
+                    ((RadioButton)getView().findViewById(R.id.rbtn_c)).setChecked(true);
+                    break;
+                case "D":
+                    ((RadioButton)getView().findViewById(R.id.rbtn_d)).setChecked(true);
+                    break;
+
+            }
+        }else {
+            String [] s = examQuestion.getRealAnswer().split(",");
+            for(String s1: s){
+                switch (s1){
+                    case "A":
+                        ((CheckBox)getView().findViewById(R.id.cb_a)).setChecked(true);
+                        break;
+                    case "B":
+                        ((CheckBox)getView().findViewById(R.id.cb_b)).setChecked(true);
+                        break;
+                    case "C":
+                        ((CheckBox)getView().findViewById(R.id.cb_c)).setChecked(true);
+                        break;
+                    case "D":
+                        ((CheckBox)getView().findViewById(R.id.cb_d)).setChecked(true);
+                        break;
+
+                }
+            }
+        }
     }
 
     @Override
     public void back() {
+        Log.d("DEON","back--------------");
+        ((MainActivity)getActivity()).setSelectedQuestion(null);
 
+        getNavigator().back();
+
+    }
+
+    @Override
+    public void onDetach() {
+        System.out.println("onDetach-----------------");
+        super.onDetach();
+    }
+
+    @Override
+    public void onDestroyView() {
+        ((MainActivity)getActivity()).setSelectedQuestion(null);
+        System.out.println("onDestroyView-----------------");
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        System.out.println("onDestroyView-----------------");
+        super.onDestroy();
     }
 
     @Override

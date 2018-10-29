@@ -54,12 +54,12 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
 
     @Override
     public void navigateToAdminPage() {
-
+        getNavigator().navigateToAdminPage();
     }
 
     @Override
     public void navigateToUserPage() {
-
+        getNavigator().navigateToUserPage();
     }
 
     @Override

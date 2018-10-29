@@ -11,7 +11,7 @@ public class QuestionInfoContract {
 
     public interface Presenter{
         void start(ExamQuestion examQuestion);
-        void submit(String title, String a, String b, String c, String d, String answer, int type,long id);
+        void submit(String title, String a, String b, String c, String d, String answer, int type,Long id);
     }
 
     public interface Provider{

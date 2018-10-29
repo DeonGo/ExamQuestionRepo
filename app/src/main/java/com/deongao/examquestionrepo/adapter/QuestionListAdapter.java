@@ -14,15 +14,23 @@ import java.util.List;
 
 public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapter.ViewHolder> {
     private List<ExamQuestion> list;
+    OnItemClickListener mOnItemClickListener;
 
-    public QuestionListAdapter(List<ExamQuestion> list) {
+    public QuestionListAdapter(List<ExamQuestion> list,  OnItemClickListener onItemClickListener) {
         this.list = list;
+        mOnItemClickListener = onItemClickListener;
     }
 
     @Override
     public QuestionListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_question, parent, false);
         QuestionListAdapter.ViewHolder viewHolder = new QuestionListAdapter.ViewHolder(view);
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onItemClick(v);
+            }
+        });
         return viewHolder;
     }
 
@@ -43,5 +51,10 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
             super(itemView);
             mText = itemView.findViewById(R.id.tv_title);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view);
+        void onItemLongClick(View view);
     }
 }

@@ -22,6 +22,7 @@ public class AdminPresenter implements AdminContract.Presenter {
         provider.getFullList(new OnRequestCallbackListener<List<ExamQuestion>>() {
             @Override
             public void onSuccess(List<ExamQuestion> examQuestions) {
+                System.out.println("examQuestions----"+examQuestions.size());
                 view.showList(examQuestions);
             }
 
@@ -34,7 +35,7 @@ public class AdminPresenter implements AdminContract.Presenter {
 
     @Override
     public void addQuestion() {
-        view.navigateToQuestionCreationPage();
+//        vie
     }
 
     @Override

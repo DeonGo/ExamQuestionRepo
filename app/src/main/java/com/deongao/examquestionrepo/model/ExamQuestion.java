@@ -6,8 +6,8 @@ import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
 public class ExamQuestion {
-    @Id
-    private long id;
+    @Id(autoincrement = true)
+    private Long id;
     private String title;
     private int type;
 
@@ -18,8 +18,8 @@ public class ExamQuestion {
 
     private String realAnswer;
 
-    @Generated(hash = 1784300329)
-    public ExamQuestion(long id, String title, int type, String answerA,
+    @Generated(hash = 870610913)
+    public ExamQuestion(Long id, String title, int type, String answerA,
             String answerB, String answerC, String answerD, String realAnswer) {
         this.id = id;
         this.title = title;
@@ -91,11 +91,11 @@ public class ExamQuestion {
         this.realAnswer = realAnswer;
     }
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

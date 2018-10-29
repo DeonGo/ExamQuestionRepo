@@ -4,7 +4,7 @@ public abstract class QuestionInfoProcessor {
 
     private OnAnswerCallback mOnAnswerCallback;
     public static int SINGLE = 1;
-    public static int MULTIPLE = 21;
+    public static int MULTIPLE = 2;
 
     public QuestionInfoProcessor(OnAnswerCallback onAnswerCallback) {
         mOnAnswerCallback = onAnswerCallback;

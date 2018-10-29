@@ -24,7 +24,7 @@ public class ExamQuestionDao extends AbstractDao<ExamQuestion, Long> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property Id = new Property(0, long.class, "id", true, "_id");
+        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Title = new Property(1, String.class, "title", false, "TITLE");
         public final static Property Type = new Property(2, int.class, "type", false, "TYPE");
         public final static Property AnswerA = new Property(3, String.class, "answerA", false, "ANSWER_A");
@@ -47,7 +47,7 @@ public class ExamQuestionDao extends AbstractDao<ExamQuestion, Long> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"EXAM_QUESTION\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY NOT NULL ," + // 0: id
+                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"TITLE\" TEXT," + // 1: title
                 "\"TYPE\" INTEGER NOT NULL ," + // 2: type
                 "\"ANSWER_A\" TEXT," + // 3: answerA
@@ -66,7 +66,11 @@ public class ExamQuestionDao extends AbstractDao<ExamQuestion, Long> {
     @Override
     protected final void bindValues(DatabaseStatement stmt, ExamQuestion entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getId());
+ 
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
  
         String title = entity.getTitle();
         if (title != null) {
@@ -103,7 +107,11 @@ public class ExamQuestionDao extends AbstractDao<ExamQuestion, Long> {
     @Override
     protected final void bindValues(SQLiteStatement stmt, ExamQuestion entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getId());
+ 
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
  
         String title = entity.getTitle();
         if (title != null) {
@@ -139,13 +147,13 @@ public class ExamQuestionDao extends AbstractDao<ExamQuestion, Long> {
 
     @Override
     public Long readKey(Cursor cursor, int offset) {
-        return cursor.getLong(offset + 0);
+        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }    
 
     @Override
     public ExamQuestion readEntity(Cursor cursor, int offset) {
         ExamQuestion entity = new ExamQuestion( //
-            cursor.getLong(offset + 0), // id
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // title
             cursor.getInt(offset + 2), // type
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // answerA
@@ -159,7 +167,7 @@ public class ExamQuestionDao extends AbstractDao<ExamQuestion, Long> {
      
     @Override
     public void readEntity(Cursor cursor, ExamQuestion entity, int offset) {
-        entity.setId(cursor.getLong(offset + 0));
+        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTitle(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setType(cursor.getInt(offset + 2));
         entity.setAnswerA(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));

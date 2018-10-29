@@ -7,7 +7,8 @@ import java.util.List;
 
 public class AdminContract {
     public interface View{
-        void navigateToQuestionCreationPage();
+        void navigateToSingleQuestionCreationPage();
+        void navigateToMultiQuestionsCreationPage();
         void navigateToQuestionDetailPage();
         void showList(List<ExamQuestion> list);
     }
