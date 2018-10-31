@@ -75,7 +75,7 @@ public class EntityManager {
     public ExamQuestion getQuestion(Long id){
         ExamQuestionDao examQuestionDao = getExamQuestionDao();
         return examQuestionDao.queryBuilder()
-                .where(ExamQuestionDao.Properties.Id.notEq(id))
+                .where(ExamQuestionDao.Properties.Id.eq(id))
                 .unique();
     }
 

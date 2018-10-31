@@ -57,6 +57,9 @@ public class ExamInfoFragment extends BaseFragment implements ExamInfoContract.V
     @Override
     public void showList(List<ExamQuestion> list) {
         System.out.println("list--------------"+list.size());
+        for(ExamQuestion examQuestion:list){
+            System.out.println("examQuestion--------------"+examQuestion.getTitle());
+        }
         mAdapter = new ExamInfoAdapter(list);
         mRvList.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();

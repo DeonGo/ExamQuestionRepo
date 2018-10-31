@@ -32,6 +32,7 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ExamListAdapter.ViewHolder holder, int position) {
+        System.out.println("ExamListAdapter----position--------------"+position);
         holder.mText.setText(list.get(position).getTitle());
     }
 

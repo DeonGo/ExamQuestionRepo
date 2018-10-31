@@ -39,12 +39,13 @@ public class ExamInfoAdapter extends RecyclerView.Adapter<ExamInfoAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ExamInfoAdapter.ViewHolder holder, int position) {
+        System.out.println("ExamInfoAdapter----position--------------"+position);
         ExamQuestion examQuestion = list.get(position);
-        holder.mTvTitle.setText(examQuestion.getTitle());
-        holder.mTvA.setText(examQuestion.getAnswerA());
-        holder.mTvB.setText(examQuestion.getAnswerB());
-        holder.mTvC.setText(examQuestion.getAnswerC());
-        holder.mTvD.setText(examQuestion.getAnswerD());
+        holder.mTvTitle.setText(String.valueOf(position+1)+" : "+examQuestion.getTitle());
+        holder.mTvA.setText("A: "+examQuestion.getAnswerA());
+        holder.mTvB.setText("B: "+examQuestion.getAnswerB());
+        holder.mTvC.setText("C: "+examQuestion.getAnswerC());
+        holder.mTvD.setText("D: "+examQuestion.getAnswerD());
 
         if(examQuestion.getType() == QuestionInfoProcessor.SINGLE){
             holder.mRadioGroup.setVisibility(View.VISIBLE);
