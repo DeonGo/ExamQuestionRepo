@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import com.deongao.examquestionrepo.MainActivity;
 import com.deongao.examquestionrepo.navigator.MainActivityNavigator;
 
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
     MainActivityNavigator mNavigator;
 
@@ -16,9 +16,17 @@ public class BaseFragment extends Fragment {
         if(context instanceof MainActivityNavigator){
             mNavigator = (MainActivityNavigator) context;
         }
+
+        ((MainActivity)getActivity()).setTitle(getTitle());
+    }
+
+    public void setTitle(){
+        ((MainActivity)getActivity()).setTitle(getTitle());
     }
 
     protected MainActivityNavigator getNavigator(){
         return mNavigator;
     }
+
+    abstract String getTitle();
 }

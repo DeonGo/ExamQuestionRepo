@@ -5,6 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -70,5 +73,10 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
     @Override
     public void showPwdEmptyAlbert() {
         Toast.makeText(getContext(),R.string.pwd_empty_alert,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    String getTitle() {
+        return "登录";
     }
 }

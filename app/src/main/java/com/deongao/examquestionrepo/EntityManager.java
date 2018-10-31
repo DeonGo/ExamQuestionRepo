@@ -2,10 +2,13 @@ package com.deongao.examquestionrepo;
 
 
 import com.deongao.examquestionrepo.greendao.ExamQuestionDao;
+import com.deongao.examquestionrepo.greendao.ExamsDao;
 import com.deongao.examquestionrepo.model.ExamQuestion;
+import com.deongao.examquestionrepo.model.Exams;
 
 import org.greenrobot.greendao.query.WhereCondition;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EntityManager {
@@ -45,11 +48,13 @@ public class EntityManager {
     }
 
     public List<ExamQuestion> getSMultiChoices(int count){
+        System.out.println("count--------------"+count);
         ExamQuestionDao examQuestionDao = getExamQuestionDao();
         return examQuestionDao.queryBuilder()
+                .where(ExamQuestionDao.Properties.Type.notEq(1))
+                .orderRaw("RANDOM()")
                 .limit(count)
-                .where(ExamQuestionDao.Properties.Type.eq(2))
-                .orderRaw("RANDOM()").list();
+                .list();
     }
 
     public void addQuestion(ExamQuestion examQuestion){
@@ -65,6 +70,33 @@ public class EntityManager {
     public void updateQuestion(ExamQuestion examQuestion){
         ExamQuestionDao examQuestionDao = getExamQuestionDao();
         examQuestionDao.update(examQuestion);
+    }
+
+    public ExamQuestion getQuestion(Long id){
+        ExamQuestionDao examQuestionDao = getExamQuestionDao();
+        return examQuestionDao.queryBuilder()
+                .where(ExamQuestionDao.Properties.Id.notEq(id))
+                .unique();
+    }
+
+    public void createExam(Exams exams){
+        ExamsDao examsDao = DaoManager.getInstance().getSession().getExamsDao();
+        examsDao.insert(exams);
+    }
+
+    public List<Exams> getExamList(){
+        ExamsDao examsDao = DaoManager.getInstance().getSession().getExamsDao();
+        return examsDao.queryBuilder().list();
+    }
+
+    public List<ExamQuestion> getExamInfoList(String ids){
+        List<ExamQuestion> examQuestions = new ArrayList<>();
+        String [] s = ids.split(",");
+        for(String id: s){
+            examQuestions.add(getQuestion(Long.valueOf(id)));
+        }
+//        ExamsDao examsDao = DaoManager.getInstance().getSession().getExamsDao();
+        return examQuestions;
     }
 
 }

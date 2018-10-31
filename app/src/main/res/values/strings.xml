@@ -16,6 +16,11 @@ _
 
     <string name="question_type">请选择题目类型</string>
 
+    <string name="exam_title">试卷名称</string>
+
+    <string name="single_count">单选题数目</string>
+    <string name="multi_count">多选题数目</string>
+
 
     <string name="answer_a">答案A</string>
     <string name="answer_b">答案B</string>

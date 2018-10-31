@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -72,6 +73,10 @@ public class QuestionInfoFragment extends BaseFragment implements QuestionInfoPr
         mRadioGroup.setVisibility(mProcessor.isRadioGroupVisible() ? View.VISIBLE : View.GONE);
 
         view.findViewById(R.id.ll_multi).setVisibility(mProcessor.isCheckboxGroupVisible() ? View.VISIBLE : View.GONE);
+
+        Button btnDel = view.findViewById(R.id.btn_del);
+        btnDel.setVisibility(((MainActivity)getActivity()).getSelectedQuestion()!=null?View.VISIBLE : View.GONE);
+        btnDel.setOnClickListener(view12 -> mPresenter.delete(((MainActivity)getActivity()).getSelectedQuestion()));
 
         Button button = view.findViewById(R.id.btn_submit);
         button.setOnClickListener(view1 -> {
@@ -207,5 +212,16 @@ public class QuestionInfoFragment extends BaseFragment implements QuestionInfoPr
     @Override
     public void showError(String text) {
         Toast.makeText(getContext(), text, Toast.LENGTH_LONG).show();
+    }
+
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            return super.onOptionsItemSelected(item);
+        }
+
+    @Override
+    String getTitle() {
+        return "题目详细";
     }
 }

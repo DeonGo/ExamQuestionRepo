@@ -23,6 +23,10 @@ public class AdminPresenter implements AdminContract.Presenter {
             @Override
             public void onSuccess(List<ExamQuestion> examQuestions) {
                 System.out.println("examQuestions----"+examQuestions.size());
+                for(ExamQuestion examQuestion: examQuestions){
+                    System.out.println("type----"+examQuestion.getType());
+
+                }
                 view.showList(examQuestions);
             }
 

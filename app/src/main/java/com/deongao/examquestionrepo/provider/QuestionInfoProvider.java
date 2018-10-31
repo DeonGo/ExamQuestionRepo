@@ -17,4 +17,9 @@ public class QuestionInfoProvider implements QuestionInfoContract.Provider {
     public void updateQuestion(ExamQuestion examQuestion) {
         EntityManager.getInstance().updateQuestion(examQuestion);
     }
+
+    @Override
+    public void delete(ExamQuestion examQuestion) {
+        EntityManager.getInstance().deleteQuestion(examQuestion);
+    }
 }

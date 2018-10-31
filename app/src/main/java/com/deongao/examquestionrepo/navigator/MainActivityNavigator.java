@@ -8,5 +8,6 @@ public interface MainActivityNavigator {
     void navigateToSingleQuestionCreationPage();
     void navigateToMultiQuestionsCreationPage();
     void navigateToQuestionInfoPage(ExamQuestion examQuestion);
+    void navigateToExamInfoPage(String ids);
     void back();
 }

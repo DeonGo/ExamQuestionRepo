@@ -12,10 +12,12 @@ public class QuestionInfoContract {
     public interface Presenter{
         void start(ExamQuestion examQuestion);
         void submit(String title, String a, String b, String c, String d, String answer, int type,Long id);
+        void delete(ExamQuestion examQuestion);
     }
 
     public interface Provider{
         void addQuestion(ExamQuestion examQuestion);
         void updateQuestion(ExamQuestion examQuestion);
+        void delete(ExamQuestion examQuestion);
     }
 }

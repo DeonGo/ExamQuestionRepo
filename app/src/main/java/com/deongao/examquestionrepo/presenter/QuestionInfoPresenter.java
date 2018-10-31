@@ -49,4 +49,10 @@ public class QuestionInfoPresenter implements QuestionInfoContract.Presenter {
         }
 
     }
+
+    @Override
+    public void delete(ExamQuestion examQuestion) {
+        provider.delete(examQuestion);
+        view.back();
+    }
 }
