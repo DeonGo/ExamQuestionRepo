@@ -67,14 +67,8 @@ public class ExamInfoFragment extends BaseFragment implements ExamInfoContract.V
             button.setOnClickListener(view1 -> {
                 int count = 0;
                 for(int i=0;i<mAdapter.getItemCount();i++){
-                    View item = mLayoutManager.findViewByPosition(i);
-                    String answer;
+                    String answer = mAdapter.getAnswers().get(i);
                     ExamQuestion examQuestion = mAdapter.getData().get(i);
-                    if(examQuestion.getType() == 1){
-                        answer = getSingleAnswer(item);
-                    }else {
-                        answer = getMultiAnswer(item);
-                    }
 
                     if(examQuestion.getRealAnswer().trim().equalsIgnoreCase(answer)){
                         count++;
@@ -109,41 +103,5 @@ public class ExamInfoFragment extends BaseFragment implements ExamInfoContract.V
         return "试卷";
     }
 
-    public String getSingleAnswer(View view) {
-        switch (((RadioGroup)view.findViewById(R.id.rgroup_single)).getCheckedRadioButtonId()) {
-            case R.id.rbtn_a:
-                return "A";
-            case R.id.rbtn_b:
-                return "B";
-            case R.id.rbtn_c:
-                return "C";
-            case R.id.rbtn_d:
-                return "D";
-            default:
-                return "A";
-        }
-    }
-
-    public String getMultiAnswer(View view) {
-        CheckBox cbA = view.findViewById(R.id.cb_a);
-        CheckBox cbB = view.findViewById(R.id.cb_b);
-        CheckBox cbC = view.findViewById(R.id.cb_c);
-        CheckBox cbD = view.findViewById(R.id.cb_d);
-
-        StringBuilder stringBuilder = new StringBuilder();
-        if (cbA.isChecked()) stringBuilder.append("A").append(",");
-        if (cbB.isChecked()) stringBuilder.append("B").append(",");
-        if (cbC.isChecked()) stringBuilder.append("C").append(",");
-        if (cbD.isChecked()) stringBuilder.append("D").append(",");
-
-        String result=null;
-        try {
-            result = stringBuilder.toString().substring(0, stringBuilder.length() - 1);
-        }catch (Exception e){
-
-        }
-
-        return result;
-    }
 
 }
