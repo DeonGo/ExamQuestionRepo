@@ -16,6 +16,8 @@ import java.util.List;
 
 
 public class ExamInfoAdapter extends RecyclerView.Adapter<ExamInfoAdapter.ViewHolder> {
+
+
     private List<ExamQuestion> list;
     OnItemClickListener mOnItemClickListener;
 
@@ -60,6 +62,10 @@ public class ExamInfoAdapter extends RecyclerView.Adapter<ExamInfoAdapter.ViewHo
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public List<ExamQuestion> getData() {
+        return list;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

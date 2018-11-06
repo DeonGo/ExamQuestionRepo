@@ -76,6 +76,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
         if (id == R.id.create_exam) {
             showExamCreationDialog();
             return true;
+        }else if(id == R.id.exam_list){
+            navigateToQuestionListPage();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -132,11 +135,21 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
     }
 
     @Override
-    public void navigateToExamInfoPage(String ids) {
+    public void navigateToQuestionListPage() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        fragmentTransaction.replace(R.id.fl_container, ExamInfoFragment.getInstance(ids));
+        fragmentTransaction.replace(R.id.fl_container, new ExamListFragment());
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    @Override
+    public void navigateToExamInfoPage(Long id, String ids) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.fl_container, ExamInfoFragment.getInstance(id, ids));
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commitAllowingStateLoss();
     }
@@ -228,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
 
                 Exams exams = new Exams();
                 exams.setIds(ids);
+                exams.setScore(-1);
                 exams.setTitle(title);
 
                 EntityManager.getInstance().createExam(exams);
@@ -247,6 +261,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
     }
 
 
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    private boolean isAdmin;
 
 
 

@@ -27,6 +27,7 @@ public class ExamsDao extends AbstractDao<Exams, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Title = new Property(1, String.class, "title", false, "TITLE");
         public final static Property Ids = new Property(2, String.class, "ids", false, "IDS");
+        public final static Property Score = new Property(3, int.class, "score", false, "SCORE");
     };
 
 
@@ -44,7 +45,8 @@ public class ExamsDao extends AbstractDao<Exams, Long> {
         db.execSQL("CREATE TABLE " + constraint + "\"EXAMS\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"TITLE\" TEXT," + // 1: title
-                "\"IDS\" TEXT);"); // 2: ids
+                "\"IDS\" TEXT," + // 2: ids
+                "\"SCORE\" INTEGER NOT NULL );"); // 3: score
     }
 
     /** Drops the underlying database table. */
@@ -71,6 +73,7 @@ public class ExamsDao extends AbstractDao<Exams, Long> {
         if (ids != null) {
             stmt.bindString(3, ids);
         }
+        stmt.bindLong(4, entity.getScore());
     }
 
     @Override
@@ -91,6 +94,7 @@ public class ExamsDao extends AbstractDao<Exams, Long> {
         if (ids != null) {
             stmt.bindString(3, ids);
         }
+        stmt.bindLong(4, entity.getScore());
     }
 
     @Override
@@ -103,7 +107,8 @@ public class ExamsDao extends AbstractDao<Exams, Long> {
         Exams entity = new Exams( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // title
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // ids
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // ids
+            cursor.getInt(offset + 3) // score
         );
         return entity;
     }
@@ -113,6 +118,7 @@ public class ExamsDao extends AbstractDao<Exams, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTitle(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setIds(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setScore(cursor.getInt(offset + 3));
      }
     
     @Override

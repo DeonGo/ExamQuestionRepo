@@ -89,6 +89,18 @@ public class EntityManager {
         return examsDao.queryBuilder().list();
     }
 
+    public void updateExam(Exams exam){
+        ExamsDao examsDao = DaoManager.getInstance().getSession().getExamsDao();
+        examsDao.update(exam);
+    }
+
+    public Exams getExams(Long id){
+        ExamsDao examsDao = DaoManager.getInstance().getSession().getExamsDao();
+        return examsDao.queryBuilder()
+                .where(ExamsDao.Properties.Id.eq(id))
+                .unique();
+    }
+
     public List<ExamQuestion> getExamInfoList(String ids){
         List<ExamQuestion> examQuestions = new ArrayList<>();
         String [] s = ids.split(",");

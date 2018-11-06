@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.deongao.examquestionrepo.MainActivity;
 import com.deongao.examquestionrepo.R;
 import com.deongao.examquestionrepo.adapter.ExamListAdapter;
 import com.deongao.examquestionrepo.contract.ExamListContract;
@@ -45,12 +46,12 @@ public class ExamListFragment extends BaseFragment implements ExamListContract.V
 
     @Override
     public void showList(List<Exams> list) {
-        mAdapter = new ExamListAdapter(list, new ExamListAdapter.OnItemClickListener() {
+        mAdapter = new ExamListAdapter(list, ((MainActivity)getActivity()).isAdmin(),new ExamListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view) {
                 System.out.println("ExamListAdapter-------------------");
                 int position = mRvList.getChildAdapterPosition(view);
-                getNavigator().navigateToExamInfoPage(list.get(position).getIds());
+                getNavigator().navigateToExamInfoPage(list.get(position).getId(),list.get(position).getIds());
             }
 
             @Override

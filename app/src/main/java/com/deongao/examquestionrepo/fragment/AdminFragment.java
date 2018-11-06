@@ -137,6 +137,6 @@ public class AdminFragment extends BaseFragment implements AdminContract.View {
 
     @Override
     String getTitle() {
-        return "题目列表";
+        return "试题库";
     }
 }

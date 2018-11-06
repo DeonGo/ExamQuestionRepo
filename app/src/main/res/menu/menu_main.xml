@@ -7,4 +7,10 @@
         android:orderInCategory="100"
         android:title="@string/create_exam"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/exam_list"
+        android:orderInCategory="101"
+        android:title="@string/exam_repo"
+        app:showAsAction="never" />
 </menu>

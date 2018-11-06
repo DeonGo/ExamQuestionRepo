@@ -17,11 +17,16 @@ public class Exams {
     private String ids;
 
 
-    @Generated(hash = 112637731)
-    public Exams(Long id, String title, String ids) {
+
+    private int score;
+
+
+    @Generated(hash = 1418557532)
+    public Exams(Long id, String title, String ids, int score) {
         this.id = id;
         this.title = title;
         this.ids = ids;
+        this.score = score;
     }
 
     @Generated(hash = 1665727768)
@@ -53,6 +58,12 @@ public class Exams {
         this.ids = ids;
     }
 
+    public int getScore() {
+        return score;
+    }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
 
 }

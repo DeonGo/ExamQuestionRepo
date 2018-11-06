@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.deongao.examquestionrepo.MainActivity;
 import com.deongao.examquestionrepo.R;
 import com.deongao.examquestionrepo.contract.LoginContract;
 import com.deongao.examquestionrepo.presenter.LoginPresenter;
@@ -57,6 +58,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
 
     @Override
     public void navigateToAdminPage() {
+        ((MainActivity)getActivity()).setAdmin(true);
         getNavigator().navigateToAdminPage();
     }
 

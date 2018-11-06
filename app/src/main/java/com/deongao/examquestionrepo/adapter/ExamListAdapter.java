@@ -16,10 +16,12 @@ import java.util.List;
 public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ViewHolder> {
     private List<Exams> list;
     OnItemClickListener mOnItemClickListener;
+    private boolean isAdmin;
 
-    public ExamListAdapter(List<Exams> list, OnItemClickListener onItemClickListener) {
+    public ExamListAdapter(List<Exams> list, boolean isAdmin, OnItemClickListener onItemClickListener) {
         this.list = list;
         mOnItemClickListener = onItemClickListener;
+        this.isAdmin = isAdmin;
     }
 
     @Override
@@ -34,6 +36,13 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ViewHo
     public void onBindViewHolder(ExamListAdapter.ViewHolder holder, int position) {
         System.out.println("ExamListAdapter----position--------------"+position);
         holder.mText.setText(list.get(position).getTitle());
+        if(isAdmin){
+            holder.mScore.setText("");
+        }else if(list.get(position).getScore() == -1){
+            holder.mScore.setText("未评测");
+        }else {
+            holder.mScore.setText(String.format("%s 分",list.get(position).getScore()));
+        }
     }
 
     @Override
@@ -42,11 +51,12 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ViewHo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView mText;
+        TextView mText, mScore;
 
         ViewHolder(View itemView) {
             super(itemView);
             mText = itemView.findViewById(R.id.tv_title);
+            mScore = itemView.findViewById(R.id.tv_score);
         }
     }
 
