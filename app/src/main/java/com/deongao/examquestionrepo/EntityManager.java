@@ -51,7 +51,17 @@ public class EntityManager {
         System.out.println("count--------------"+count);
         ExamQuestionDao examQuestionDao = getExamQuestionDao();
         return examQuestionDao.queryBuilder()
-                .where(ExamQuestionDao.Properties.Type.notEq(1))
+                .where(ExamQuestionDao.Properties.Type.eq(2))
+                .orderRaw("RANDOM()")
+                .limit(count)
+                .list();
+    }
+
+    public List<ExamQuestion> getJudgment(int count){
+        System.out.println("count--------------"+count);
+        ExamQuestionDao examQuestionDao = getExamQuestionDao();
+        return examQuestionDao.queryBuilder()
+                .where(ExamQuestionDao.Properties.Type.eq(3))
                 .orderRaw("RANDOM()")
                 .limit(count)
                 .list();
@@ -105,7 +115,11 @@ public class EntityManager {
         List<ExamQuestion> examQuestions = new ArrayList<>();
         String [] s = ids.split(",");
         for(String id: s){
-            examQuestions.add(getQuestion(Long.valueOf(id)));
+            ExamQuestion examQuestion = getQuestion(Long.valueOf(id));
+            if(examQuestion !=null){
+                examQuestions.add(examQuestion);
+            }
+
         }
 //        ExamsDao examsDao = DaoManager.getInstance().getSession().getExamsDao();
         return examQuestions;

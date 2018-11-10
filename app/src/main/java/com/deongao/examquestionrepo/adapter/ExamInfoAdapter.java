@@ -57,38 +57,36 @@ public class ExamInfoAdapter extends RecyclerView.Adapter<ExamInfoAdapter.ViewHo
         holder.mTvC.setText("C: "+examQuestion.getAnswerC());
         holder.mTvD.setText("D: "+examQuestion.getAnswerD());
 
+        holder.mLlAnswer.setVisibility(View.VISIBLE);
+
         if(examQuestion.getType() == QuestionInfoProcessor.SINGLE){
             holder.mRadioGroup.setVisibility(View.VISIBLE);
             holder.mLlMulti.setVisibility(View.GONE);
-            holder.mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                    String answer = getSingleAnswer(radioGroup);
-                    answers.remove(position);
-                    answers.add(position, answer);
-                }
+            holder.mRgJudgment.setVisibility(View.GONE);
+            holder.mRadioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
+                String answer = getSingleAnswer(radioGroup);
+                answers.remove(position);
+                answers.add(position, answer);
             });
-        }else {
+        }else if(examQuestion.getType() == QuestionInfoProcessor.MULTIPLE){
             holder.mRadioGroup.setVisibility(View.GONE);
             holder.mLlMulti.setVisibility(View.VISIBLE);
+            holder.mRgJudgment.setVisibility(View.GONE);
 
-            CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    StringBuilder stringBuilder = new StringBuilder();
-                    if (holder.cbA.isChecked()) stringBuilder.append("A").append(",");
-                    if (holder.cbB.isChecked()) stringBuilder.append("B").append(",");
-                    if (holder.cbC.isChecked()) stringBuilder.append("C").append(",");
-                    if (holder.cbD.isChecked()) stringBuilder.append("D").append(",");
+            CompoundButton.OnCheckedChangeListener onCheckedChangeListener = (compoundButton, b) -> {
+                StringBuilder stringBuilder = new StringBuilder();
+                if (holder.cbA.isChecked()) stringBuilder.append("A").append(",");
+                if (holder.cbB.isChecked()) stringBuilder.append("B").append(",");
+                if (holder.cbC.isChecked()) stringBuilder.append("C").append(",");
+                if (holder.cbD.isChecked()) stringBuilder.append("D").append(",");
 
-                    String result=null;
-                    try {
-                        result = stringBuilder.toString().substring(0, stringBuilder.length() - 1);
-                        answers.remove(position);
-                        answers.add(position, result);
-                    }catch (Exception e){
+                String result=null;
+                try {
+                    result = stringBuilder.toString().substring(0, stringBuilder.length() - 1);
+                    answers.remove(position);
+                    answers.add(position, result);
+                }catch (Exception e){
 
-                    }
                 }
             };
 
@@ -97,6 +95,16 @@ public class ExamInfoAdapter extends RecyclerView.Adapter<ExamInfoAdapter.ViewHo
             holder.cbC.setOnCheckedChangeListener(onCheckedChangeListener);
             holder.cbD.setOnCheckedChangeListener(onCheckedChangeListener);
 
+        }else {
+            holder.mLlAnswer.setVisibility(View.GONE);
+            holder.mRadioGroup.setVisibility(View.GONE);
+            holder.mLlMulti.setVisibility(View.GONE);
+            holder.mRgJudgment.setVisibility(View.VISIBLE);
+            holder.mRgJudgment.setOnCheckedChangeListener((radioGroup, i) -> {
+                String answer = getJudgmentAnswer(radioGroup);
+                answers.remove(position);
+                answers.add(position, answer);
+            });
         }
 
     }
@@ -118,8 +126,8 @@ public class ExamInfoAdapter extends RecyclerView.Adapter<ExamInfoAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView mTvTitle,mTvA,mTvB,mTvC,mTvD;
-        RadioGroup mRadioGroup;
-        LinearLayout mLlMulti;
+        RadioGroup mRadioGroup,mRgJudgment;
+        LinearLayout mLlMulti,mLlAnswer;
         CheckBox cbA,cbB,cbC,cbD;
 
         ViewHolder(View itemView) {
@@ -130,6 +138,7 @@ public class ExamInfoAdapter extends RecyclerView.Adapter<ExamInfoAdapter.ViewHo
             mTvC = itemView.findViewById(R.id.et_C);
             mTvD = itemView.findViewById(R.id.et_D);
             mRadioGroup = itemView.findViewById(R.id.rgroup_single);
+            mRgJudgment = itemView.findViewById(R.id.rgroup_judgment);
 
             cbA = itemView.findViewById(R.id.cb_a);
             cbB = itemView.findViewById(R.id.cb_b);
@@ -138,6 +147,7 @@ public class ExamInfoAdapter extends RecyclerView.Adapter<ExamInfoAdapter.ViewHo
 //            mRadioGroup.setVisibility(mProcessor.isRadioGroupVisible() ? View.VISIBLE : View.GONE);
 
             mLlMulti = itemView.findViewById(R.id.ll_multi);
+            mLlAnswer = itemView.findViewById(R.id.ll_answer);
         }
     }
 
@@ -181,5 +191,17 @@ public class ExamInfoAdapter extends RecyclerView.Adapter<ExamInfoAdapter.ViewHo
         }
 
         return result;
+    }
+
+    public String getJudgmentAnswer(RadioGroup view) {
+        System.out.println("getJudgmentAnswer-----------------");
+        switch (view.getCheckedRadioButtonId()) {
+            case R.id.rbtn_right:
+                return "A";
+            case R.id.rbtn_wrong:
+                return "B";
+            default:
+                return "A";
+        }
     }
 }

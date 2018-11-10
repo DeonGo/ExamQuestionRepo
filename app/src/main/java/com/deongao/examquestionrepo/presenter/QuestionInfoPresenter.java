@@ -24,7 +24,7 @@ public class QuestionInfoPresenter implements QuestionInfoContract.Presenter {
     public void submit(String title, String a, String b, String c, String d, String answer, int type,Long id) {
         if(TextUtils.isEmpty(title)){
             view.showError("题目不能为空！！！");
-        }else if(TextUtils.isEmpty(a)||TextUtils.isEmpty(b)||TextUtils.isEmpty(c)||TextUtils.isEmpty(d)){
+        }else if(type !=3 &&( TextUtils.isEmpty(a)||TextUtils.isEmpty(b)||TextUtils.isEmpty(c)||TextUtils.isEmpty(d))){
             view.showError("选择项不能为空！！！");
         }else if(TextUtils.isEmpty(answer)){
             view.showError("答案不能为空！！！");

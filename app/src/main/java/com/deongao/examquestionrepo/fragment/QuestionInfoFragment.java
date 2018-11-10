@@ -25,9 +25,9 @@ import com.deongao.examquestionrepo.provider.QuestionInfoProvider;
 
 public class QuestionInfoFragment extends BaseFragment implements QuestionInfoProcessor.OnAnswerCallback, QuestionInfoContract.View {
 
-    private static final String ARG_QUESTION_TYPE = "is_single_choice";
+    private static final String ARG_QUESTION_TYPE = "type";
     QuestionInfoProcessor mProcessor;
-    RadioGroup mRadioGroup;
+    RadioGroup mRadioGroup, mJudgmentGroup;
     QuestionInfoContract.Presenter mPresenter;
 
     EditText mEtTitle, mEtA, mEtB, mEtC, mEtD;
@@ -37,7 +37,7 @@ public class QuestionInfoFragment extends BaseFragment implements QuestionInfoPr
 
     public static QuestionInfoFragment getSingleChoiceFragment() {
         Bundle bundle = new Bundle();
-        bundle.putBoolean(ARG_QUESTION_TYPE, true);
+        bundle.putInt(ARG_QUESTION_TYPE, 1);
         QuestionInfoFragment questionInfoFragment = new QuestionInfoFragment();
         questionInfoFragment.setArguments(bundle);
         return questionInfoFragment;
@@ -45,7 +45,15 @@ public class QuestionInfoFragment extends BaseFragment implements QuestionInfoPr
 
     public static QuestionInfoFragment getMultiChoicesFragment() {
         Bundle bundle = new Bundle();
-        bundle.putBoolean(ARG_QUESTION_TYPE, false);
+        bundle.putInt(ARG_QUESTION_TYPE, 2);
+        QuestionInfoFragment questionInfoFragment = new QuestionInfoFragment();
+        questionInfoFragment.setArguments(bundle);
+        return questionInfoFragment;
+    }
+
+    public static QuestionInfoFragment getJudgmentFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putInt(ARG_QUESTION_TYPE, 3);
         QuestionInfoFragment questionInfoFragment = new QuestionInfoFragment();
         questionInfoFragment.setArguments(bundle);
         return questionInfoFragment;
@@ -54,10 +62,13 @@ public class QuestionInfoFragment extends BaseFragment implements QuestionInfoPr
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         System.out.println("onCreateView-----------------");
-        if (getArguments().getBoolean(ARG_QUESTION_TYPE)) {
+        int type = getArguments().getInt(ARG_QUESTION_TYPE);
+        if (type == QuestionInfoProcessor.SINGLE) {
             mProcessor = new QuestionInfoProcessor.SingleChoiceProcessor(this);
-        } else {
+        } else if(type == QuestionInfoProcessor.MULTIPLE){
             mProcessor = new QuestionInfoProcessor.MultiChoiceProcessor(this);
+        }else{
+            mProcessor = new QuestionInfoProcessor.JudgmentProcessor(this);
         }
         mPresenter = new QuestionInfoPresenter(this, new QuestionInfoProvider());
         return inflater.inflate(R.layout.question_info_screen, container, false);
@@ -72,7 +83,11 @@ public class QuestionInfoFragment extends BaseFragment implements QuestionInfoPr
         mRadioGroup = view.findViewById(R.id.rgroup_single);
         mRadioGroup.setVisibility(mProcessor.isRadioGroupVisible() ? View.VISIBLE : View.GONE);
 
+        mJudgmentGroup = view.findViewById(R.id.rgroup_judgment);
+        mJudgmentGroup.setVisibility(mProcessor.isJudgmentGroupVisible() ? View.VISIBLE : View.GONE);
+
         view.findViewById(R.id.ll_multi).setVisibility(mProcessor.isCheckboxGroupVisible() ? View.VISIBLE : View.GONE);
+        view.findViewById(R.id.ll_answer).setVisibility(mProcessor.isAnswerViewVisible() ? View.VISIBLE : View.GONE);
 
         Button btnDel = view.findViewById(R.id.btn_del);
         btnDel.setVisibility(((MainActivity)getActivity()).getSelectedQuestion()!=null?View.VISIBLE : View.GONE);
@@ -135,6 +150,19 @@ public class QuestionInfoFragment extends BaseFragment implements QuestionInfoPr
         return result;
     }
 
+    @Override
+    public String getJudgmentAnswer() {
+        System.out.println("getJudgmentAnswer-----------------");
+        switch (mJudgmentGroup.getCheckedRadioButtonId()) {
+            case R.id.rbtn_right:
+                return "A";
+            case R.id.rbtn_wrong:
+                return "B";
+            default:
+                return "A";
+        }
+    }
+
 
     @Override
     public void showQuestion(ExamQuestion examQuestion) {
@@ -159,7 +187,7 @@ public class QuestionInfoFragment extends BaseFragment implements QuestionInfoPr
                     break;
 
             }
-        }else {
+        }else if(examQuestion.getType() == QuestionInfoProcessor.MULTIPLE){
             String [] s = examQuestion.getRealAnswer().split(",");
             for(String s1: s){
                 switch (s1){
@@ -177,6 +205,15 @@ public class QuestionInfoFragment extends BaseFragment implements QuestionInfoPr
                         break;
 
                 }
+            }
+        }else {
+            switch (examQuestion.getRealAnswer()){
+                case "A":
+                    ((RadioButton)getView().findViewById(R.id.rbtn_right)).setChecked(true);
+                    break;
+                case "B":
+                    ((RadioButton)getView().findViewById(R.id.rbtn_wrong)).setChecked(true);
+                    break;
             }
         }
     }

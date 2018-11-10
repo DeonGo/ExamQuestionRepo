@@ -123,14 +123,26 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
         fragmentTransaction.commitAllowingStateLoss();
     }
 
+    @Override
+    public void navigateToJudgmentQuestionsCreationPage() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.fl_container, QuestionInfoFragment.getJudgmentFragment());
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
 
     @Override
     public void navigateToQuestionInfoPage(ExamQuestion examQuestion) {
         setSelectedQuestion(examQuestion);
         if(examQuestion.getType() == QuestionInfoProcessor.SINGLE){
             navigateToSingleQuestionCreationPage();
-        }else {
+        }else if(examQuestion.getType() == QuestionInfoProcessor.MULTIPLE){
             navigateToMultiQuestionsCreationPage();
+        }else {
+            navigateToJudgmentQuestionsCreationPage();
         }
     }
 
@@ -207,6 +219,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
 
         final EditText etSingle = view.findViewById(R.id.et_single);
         final EditText etMulti = view.findViewById(R.id.et_multi);
+        final EditText etJudgment = view.findViewById(R.id.et_judgment);
         final EditText etTitle = view.findViewById(R.id.et_title);
 
         builder.setPositiveButton("确定", (dialog, which) -> {
@@ -214,18 +227,25 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
 
             String strSingle = etSingle.getText().toString().trim();
             String strMulti = etMulti.getText().toString().trim();
+            String strJudgment = etJudgment.getText().toString().trim();
 
-            if(TextUtils.isEmpty(title) ||TextUtils.isEmpty(strMulti) || TextUtils.isEmpty(strSingle)){
+            if(TextUtils.isEmpty(title) ||TextUtils.isEmpty(strMulti) || TextUtils.isEmpty(strSingle) || TextUtils.isEmpty(strJudgment)){
                 Toast.makeText(getApplicationContext(), "上述输入不能为空", Toast.LENGTH_SHORT).show();
             }else {
 
                 List<ExamQuestion> listSingle = EntityManager.getInstance().getSingleChoice(Integer.valueOf(strSingle));
                 List<ExamQuestion> listMulti = EntityManager.getInstance().getSMultiChoices(Integer.valueOf(strMulti));
+                List<ExamQuestion> listJudgment = EntityManager.getInstance().getJudgment(Integer.valueOf(strMulti));
 
                 System.out.println("listSingle--------------"+listSingle.size());
                 System.out.println("listMulti--------------"+listMulti.size());
 
                 StringBuilder stringBuilder = new StringBuilder();
+
+                for (ExamQuestion examQuestion : listJudgment) {
+                    stringBuilder.append(examQuestion.getId());
+                    stringBuilder.append(",");
+                }
 
                 for (ExamQuestion examQuestion : listSingle) {
                     stringBuilder.append(examQuestion.getId());
@@ -236,6 +256,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
                     stringBuilder.append(examQuestion.getId());
                     stringBuilder.append(",");
                 }
+
+
 
                 String ids = stringBuilder.toString().substring(0, stringBuilder.length() - 1);
 

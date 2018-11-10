@@ -7,6 +7,7 @@ public interface MainActivityNavigator {
     void navigateToUserPage();
     void navigateToSingleQuestionCreationPage();
     void navigateToMultiQuestionsCreationPage();
+    void navigateToJudgmentQuestionsCreationPage();
     void navigateToQuestionInfoPage(ExamQuestion examQuestion);
     void navigateToQuestionListPage();
     void navigateToExamInfoPage(Long id, String ids);

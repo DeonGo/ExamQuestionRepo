@@ -98,9 +98,9 @@ public class AdminFragment extends BaseFragment implements AdminContract.View {
 
     private void dialogChoice() {
 
-        final String items[] = {"单选", "多选"};
+        final String items[] = {"单选", "多选","选择"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),3);
-        builder.setTitle("增加题目");
+        builder.setTitle("新增题目");
         builder.setIcon(R.mipmap.ic_launcher);
         builder.setSingleChoiceItems(items, -1,
                 new DialogInterface.OnClickListener() {
@@ -118,8 +118,10 @@ public class AdminFragment extends BaseFragment implements AdminContract.View {
                     dialog.dismiss();
                     if(mType == QuestionInfoProcessor.SINGLE){
                         navigateToSingleQuestionCreationPage();
-                    }else {
+                    }else if(mType == QuestionInfoProcessor.MULTIPLE){
                         navigateToMultiQuestionsCreationPage();
+                    }else {
+                        getNavigator().navigateToJudgmentQuestionsCreationPage();
                     }
                     mType = 0;
                 }
