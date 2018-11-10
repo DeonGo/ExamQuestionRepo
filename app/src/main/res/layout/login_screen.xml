@@ -3,7 +3,7 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <android.support.design.widget.TextInputLayout
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="150dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_16"
@@ -73,5 +73,15 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/rgroup"
         android:id="@+id/btn_login"/>
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="测试专用，加模拟题"
+        android:visibility="gone"
+        android:theme="@style/AppTheme.Button"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/btn_login"
+        android:id="@+id/btn_add"/>
 
 </RelativeLayout>

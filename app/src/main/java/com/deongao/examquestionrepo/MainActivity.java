@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
 
         fragmentTransaction.add(R.id.fl_container, new LoginFragment());
         fragmentTransaction.commitAllowingStateLoss();
+
     }
 
     @Override
@@ -292,6 +293,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
     }
 
     private boolean isAdmin;
+
+
 
 
 

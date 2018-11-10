@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">试题库</string>
+    <string name="app_name">生物试题库管理系统</string>
     <!--<string name="action_settings">Settings</string>-->
     <string name="create_exam">增加試卷</string>
     \<string name="exam_repo">试卷库</string>
