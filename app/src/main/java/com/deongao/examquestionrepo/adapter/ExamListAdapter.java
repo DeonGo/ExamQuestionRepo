@@ -37,11 +37,15 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ViewHo
         System.out.println("ExamListAdapter----position--------------"+position);
         holder.mText.setText(list.get(position).getTitle());
         if(isAdmin){
-            holder.mScore.setText("");
+            holder.mScore.setText("删除");
+            holder.mScore.setTag(list.get(position));
+            holder.mScore.setOnClickListener(view -> mOnItemClickListener.onDelClick((Exams) view.getTag()));
         }else if(list.get(position).getScore() == -1){
             holder.mScore.setText("未评测");
+            holder.mScore.setOnClickListener(null);
         }else {
             holder.mScore.setText(String.format("%s 分",list.get(position).getScore()));
+            holder.mScore.setOnClickListener(null);
         }
     }
 
@@ -62,6 +66,6 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ViewHo
 
     public interface OnItemClickListener {
         void onItemClick(View view);
-        void onItemLongClick(View view);
+        void onDelClick(Exams exams);
     }
 }

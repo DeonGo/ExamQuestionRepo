@@ -1,5 +1,7 @@
 package com.deongao.examquestionrepo.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.deongao.examquestionrepo.EntityManager;
 import com.deongao.examquestionrepo.MainActivity;
 import com.deongao.examquestionrepo.R;
 import com.deongao.examquestionrepo.adapter.ExamListAdapter;
@@ -55,8 +58,8 @@ public class ExamListFragment extends BaseFragment implements ExamListContract.V
             }
 
             @Override
-            public void onItemLongClick(View view) {
-
+            public void onDelClick(Exams exams) {
+                showDialog(exams);
             }
         });
         mRvList.setAdapter(mAdapter);
@@ -67,4 +70,19 @@ public class ExamListFragment extends BaseFragment implements ExamListContract.V
     String getTitle() {
         return "试卷列表";
     }
+
+    private void showDialog(Exams exams){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("弹出警告框");
+        builder.setMessage("确定删除吗？");
+        builder.setPositiveButton("确定", (dialog, which) -> {
+            EntityManager.getInstance().deleteExam(exams);
+            mPresenter.start();
+        });
+        builder.setNegativeButton("取消", (dialog, which) -> {
+        });
+        builder.show();
+    }
 }
+
+

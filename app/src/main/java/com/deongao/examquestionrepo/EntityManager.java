@@ -104,6 +104,11 @@ public class EntityManager {
         examsDao.update(exam);
     }
 
+    public void deleteExam(Exams exam){
+        ExamsDao examsDao = DaoManager.getInstance().getSession().getExamsDao();
+        examsDao.delete(exam);
+    }
+
     public Exams getExams(Long id){
         ExamsDao examsDao = DaoManager.getInstance().getSession().getExamsDao();
         return examsDao.queryBuilder()
